@@ -1,5 +1,6 @@
 from library_books import library_books
 from datetime import datetime, timedelta
+import string
 
 # -------- Level 1 --------
 # TODO: Create a function to view all books that are currently available
@@ -20,7 +21,7 @@ def viewAllBooks(library_books):
     print("Here are all of the books in the library: \n")
     for book in library_books:
         if book.get("available") == True:
-            print(f"{book.get("id")} - {book.get("title")} by {book.get("author")}")
+            print(f"Book ID: {book.get("id")} - {book.get("title")} by {book.get("author")}")
 
 viewAllBooks(library_books)
 
@@ -37,7 +38,29 @@ viewAllBooks(library_books)
 #Assemble:
 
 #DEFINE function bookSearch - input String searchValue
+    #author_list created with values of authors from library_books
+    #genre_list created with values of genres from library_books
+    #IF searchValue in author_list
+        #print "Books by author searchValue"
+    #ELSE IF searchValue in genre_list
+        #print "Books in genre searchValue"
     #FOR each book in library_books
+        #IF book author equals searchValue or book genre equals searchValue
+            #print book
+
+def bookSearch(searchValue):
+    author_list = [book.get("author") for book in library_books]
+    genre_list = [book.get("genre") for book in library_books]
+    if any(author.casefold() == searchValue.casefold() for author in author_list):
+        print("Here are books by author " + string.capwords(searchValue) + ":")
+    elif any(genre.casefold() == searchValue.casefold() for genre in genre_list):
+        print("Here are books in the " + string.capwords(searchValue) + " genre:")
+    for book in library_books:
+        if book.get("author").casefold() == searchValue or book.get("genre").casefold() == searchValue:
+            print(f"Book ID: {book.get("id")} - {book.get("title")} by {book.get("author")} - Genre: {book.get("genre")} - Is it Available? {book.get("available")} - Due Date: {book.get("due date")} - Number of Checkouts: {book.get("checkouts")}")
+
+bookSearch("fantasy")
+bookSearch("ray bradbury")
 
 
 # -------- Level 3 --------
