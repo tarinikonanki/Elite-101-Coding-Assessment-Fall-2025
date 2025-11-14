@@ -46,7 +46,7 @@ class Book:
 
     #Understand: I have to create a function where the user can search library_books by either author or genre
     # - Inputs = string stating author or genre; Outputs list of books with that author or genre; Edge cases is if the book is not found in library books
-    #Clues: As it involves searching, I will need to use for loops. I might also need to use string methods to make it case sensitive.
+    #Clues: As it involves searching, I will need to use for loops. I might also need to use string methods to make it case insensitive.
     #Assemble:
 
     #DEFINE function bookSearch - input String searchValue
@@ -94,7 +94,7 @@ class Book:
 
     #Understand: I have to create a function where the user can check a book based on its ID
     # - Inputs = string stating book ID; Outputs either that you checked out the book or you can't as it is already checked out; edge cases include if the ID is invalid/doesn't match any book
-    #Clues: Since I will need search through the library books list, I will need to use for loops. I might also need to use string methods to make my searches case sensitive.
+    #Clues: Since I will need search through the library books list, I will need to use for loops. I might also need to use string methods to make my searches case insensitive.
     #Assemble:
 
     #DEFINE function checkout - input String ID
@@ -157,7 +157,7 @@ class Book:
 
     ##Understand: I have to create a function where the user can return a book
     # - Inputs = string stating book ID; Output is that you successfully returned a book; edge cases include if the ID is invalid/doesn't match any book
-    #Clues: Since I will need search through the library books list to match the IDs, I will need to use for loops. I might also need to use string methods to make my searches case sensitive.
+    #Clues: Since I will need search through the library books list to match the IDs, I will need to use for loops. I might also need to use string methods to make my searches case insensitive.
     #Assemble:
 
     def returnBook(self, bookID):
@@ -185,7 +185,7 @@ class Book:
 
     #Understand: I have to create a function that checks which books are overdue and shows them
     # - Inputs = list/dictionary with books; Output is each book that is overdue being printed out; edge cases are if there are no overdue books
-    #Clues: Since I will need search through the library books list to check if each book is overdue, I will need to use for loops. I might also need to use string methods to make my searches case sensitive.
+    #Clues: Since I will need search through the library books list to check if each book is overdue, I will need to use for loops. I might also need to use string methods to make my searches case insensitive.
     #Assemble:
 
     def overdueBooks(self):
