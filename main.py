@@ -9,9 +9,21 @@ import time
 #https://www.w3schools.com/python/python_datetime.asp
 
 class Book:
+    def __init__(self, id, title, author, genre, available, due_date, checkouts):
+        self.id = id
+        self.title = title
+        self.author = author
+        self.genre = genre
+        self.available = available
+        self.due_date = due_date
+        self.checkouts = checkouts
+
+class Library:
 
     def __init__(self, library_books):
-        self.library_books = library_books
+        self.library_books = []
+        for book in library_books:
+            self.library_books.append(Book(book["id"],book["title"],book["author"],book["genre"],book["available"],book["due_date"], book["checkouts"]))
 
     # -------- Level 1 --------
     # TODO: Create a function to view all books that are currently available
@@ -32,8 +44,8 @@ class Book:
         print("Here are all of the available books in the library: \n")
         time.sleep(1)
         for book in self.library_books:
-            if book.get("available") == True:
-                print(f"Book ID: {book.get("id")} - {book.get("title")} by {book.get("author")}")
+            if book.available == True:
+                print(f"Book ID: {book.id} - {book.title} by {book.author}")
 
     #TEST: viewAllBooks(library_books)
 
@@ -63,8 +75,8 @@ class Book:
                 #print book
 
     def bookSearch(self, searchValue):
-        author_list = [book.get("author") for book in self.library_books]
-        genre_list = [book.get("genre") for book in self.library_books]
+        author_list = [book.author for book in self.library_books]
+        genre_list = [book.genre for book in self.library_books]
         if any(author.casefold() == searchValue.casefold() for author in author_list):
             print("Here are books by author " + string.capwords(searchValue) + ":")
         elif any(genre.casefold() == searchValue.casefold() for genre in genre_list):
@@ -73,8 +85,8 @@ class Book:
             print("There is no book with this information in this library.")
         time.sleep(1)
         for book in self.library_books:
-            if book.get("author").casefold() == searchValue.casefold() or book.get("genre").casefold() == searchValue.casefold():
-                print(f"Book ID: {book.get("id")} - {book.get("title")} by {book.get("author")} - Genre: {book.get("genre")} - Is it Available? {book.get("available")} - Due Date: {book.get("due date")} - Number of Checkouts: {book.get("checkouts")}")
+            if book.author.casefold() == searchValue.casefold() or book.genre.casefold() == searchValue.casefold():
+                print(f"Book ID: {book.id} - {book.title} by {book.author} - Genre: {book.genre} - Is it Available? {book.available} - Due Date: {book.due_date} - Number of Checkouts: {book.checkouts}")
 
     '''TEST:
     bookSearch("fantasy")
@@ -115,23 +127,23 @@ class Book:
             #PRINT "There is no book in the library with that ID."
 
     def checkout(self, ID):
-        if any(book.get("id").casefold() == ID.casefold() for book in self.library_books):
+        if any(book.id.casefold() == ID.casefold() for book in self.library_books):
             for book in self.library_books:
-                if book.get("id").casefold() == ID.casefold():
-                    print(f"Book to checkout: {book.get("title")} by {book.get("author")}")
+                if book.id.casefold() == ID.casefold():
+                    print(f"Book to checkout: {book.title} by {book.author}")
                     time.sleep(1)
-                    if book.get("available") == True:
-                        book["available"] = False
-                        if(book.get("due_date") == None):
-                            book["due_date"] = str(datetime.now().date() + timedelta(weeks=2))
+                    if book.available == True:
+                        book.available = False
+                        if(book.due_date == None):
+                            book.due_date = str(datetime.now().date() + timedelta(weeks=2))
                         else:
-                            print(f"The old due date of {book.get("title")} by {book.get("author")} is {book.get("due_date")} \n")
-                            book["due_date"] = str(datetime.strptime(book["due_date"], "%Y-%m-%d").date() + timedelta(weeks=2))
+                            print(f"The old due date of {book.title} by {book.author} is {book.due_date} \n")
+                            book.due_date = str(datetime.strptime(book.due_date, "%Y-%m-%d").date() + timedelta(weeks=2))
                             time.sleep(1)
-                        book["checkouts"] = book["checkouts"] + 1
-                        print(f"You just checked out {book.get("title")} by {book.get("author")} - ID: {book.get("id")} - Due Date: {book.get("due_date")} - Number of Checkouts: {book.get("checkouts")} - Currently Available: {book.get("available")}")
+                        book.checkouts = book.checkouts + 1
+                        print(f"You just checked out {book.title} by {book.author} - ID: {book.id} - Due Date: {book.due_date} - Number of Checkouts: {book.checkouts} - Currently Available: {book.available}")
                     else:
-                        print(f"{book.get("title")} by {book.get("author")} - ID {ID} is already checked out.")
+                        print(f"{book.title} by {book.author} - ID {ID} is already checked out.")
         else:
             print(f"Sorry, there is no book in the library with the book ID {ID}.")
 
@@ -161,21 +173,21 @@ class Book:
     #Assemble:
 
     def returnBook(self, bookID):
-        if any(book.get("id").casefold() == bookID.casefold() for book in self.library_books):
+        if any(book.id.casefold() == bookID.casefold() for book in self.library_books):
             for book in self.library_books:
-                if book.get("id").casefold() == bookID.casefold():
-                    print(f"Book to return: {book.get("title")} by {book.get("author")}")
+                if book.id.casefold() == bookID.casefold():
+                    print(f"Book to return: {book.title} by {book.author}")
                     time.sleep(0.5)
-                    if book.get("available") == True:
-                        print(f"The book {book.get("title")} by {book.get("author")} - {book.get("id")} has already been returned and does not need to be returned again.")
+                    if book.available == True:
+                        print(f"The book {book.title} by {book.author} - {book.id} has already been returned and does not need to be returned again.")
                         break
-                    if book.get("available") == False:
-                        book["available"] = True
-                    if book.get("due_date") != None:
-                        book["due_date"] == None
-                    availability = "available" if book.get("available") else "not available"
+                    if book.available == False:
+                        book.available = True
+                    if book.due_date != None:
+                        book.due_date == None
+                    availability = "available" if book.available else "not available"
                     time.sleep(1)
-                    print(f"{book.get("title")} by {book.get("author")} - {book.get("id")} is now returned and is {availability} for checkout.")
+                    print(f"{book.title} by {book.author} - {book.id} is now returned and is {availability} for checkout.")
         else:
             print(f"Sorry, there is no book in the library with the book ID {bookID}.")
     #TEST: returnBook("B4")
@@ -192,8 +204,8 @@ class Book:
         print("Here is a list of Overdue Books in the Library: ")
         time.sleep(1)
         for book in self.library_books:
-            if book["available"] == False and datetime.strptime(book["due_date"], "%Y-%m-%d").date() < date.today():
-                print(f"{book.get("title")} by {book.get("author")} - {book.get("id")}")
+            if book.available == False and datetime.strptime(book.due_date, "%Y-%m-%d").date() < date.today():
+                print(f"{book.title} by {book.author} - {book.id}")
     #TEST: overdueBooks(library_books)
 
 
@@ -233,12 +245,12 @@ class Book:
         checkout_books = []
         i = 0
         while(len(checkout_books) < 3):
-            most_checkouts = library_books_duplicate[0]["checkouts"]
+            most_checkouts = library_books_duplicate[0].checkouts
             book_to_add = library_books_duplicate[0]
             for book in library_books_duplicate:
-                if book["checkouts"] >= most_checkouts:
+                if book.checkouts >= most_checkouts:
                     book_to_add = book
-                    most_checkouts = book["checkouts"]
+                    most_checkouts = book.checkouts
             checkout_books.append(book_to_add)
             for book in library_books_duplicate:
                 if book == checkout_books[i]:
@@ -247,7 +259,7 @@ class Book:
         place = 0
         time.sleep(1)
         for book in checkout_books:
-            print(f"{place}. {book.get("title")} by {book.get("author")} - {book.get("id")} - {book.get("checkouts")}")
+            print(f"{place}. {book.title} by {book.author} - {book.id} - {book.checkouts}")
             place = place + 1
 
 
@@ -263,14 +275,14 @@ class Book:
         #PRINT book and tell user book was added
 
     def add_book(self):
-        id_last_num = int(self.library_books[-1].get("id")[-1]) + 1
-        id = self.library_books[-1].get("id")[0] + "" + str(id_last_num)
+        id_last_num = int(self.library_books[-1].id[-1]) + 1
+        id = self.library_books[-1].id[0] + "" + str(id_last_num)
         title = input("Enter the title of the book you want to add: ")
         author = input("Enter the author of the book you want to add: ")
         genre = input("Enter the genre of the book you want to add: ")
-        self.library_books.append({"id":id,"title" : title, "author":author, "genre": genre,"available": True, "due_date": None, "checkouts": 0})
+        self.library_books.append(Book(id,title,author,genre,True,None,0))
         time.sleep(1)
-        print(f"You just added the book {self.library_books[-1].get("title")} by {self.library_books[-1].get("author")} (ID: {self.library_books[-1].get("id")}; Genre: {self.library_books[-1].get("genre")}) to the library!")
+        print(f"You just added the book {self.library_books[-1].title} by {self.library_books[-1].author} (ID: {self.library_books[-1].id}; Genre: {self.library_books[-1].genre}) to the library!")
                 
 
 
@@ -305,7 +317,7 @@ class Book:
 
 if __name__ == "__main__":
     # You can use this space to test your functions
-    my_library = Book(library_books)
+    my_library = Library(library_books)
     print("Welcome to the library! Choose from the menu to explore our options! \n")
     time.sleep(0.5)
     continue_menu = True
