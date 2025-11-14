@@ -164,6 +164,11 @@ class Book:
         if any(book.get("id").casefold() == bookID.casefold() for book in self.library_books):
             for book in self.library_books:
                 if book.get("id").casefold() == bookID.casefold():
+                    print(f"Book to return: {book.get("title")} by {book.get("author")}")
+                    time.sleep(0.5)
+                    if book.get("available") == True:
+                        print(f"The book {book.get("title")} by {book.get("author")} - {book.get("id")} has already been returned and does not need to be returned again.")
+                        break
                     if book.get("available") == False:
                         book["available"] = True
                     if book.get("due_date") != None:
@@ -243,7 +248,7 @@ class Book:
 
 
     def menu(self):
-        option = int(input("Choose the number for one of the following options: \n 1. View Available Books \n 2. Search By Author or Genre \n 3. Checkout a Book \n 4. Return a Book \n 5. View Overdue Books \n 6. View Top 3 Most Checked-Out Books \n 7. Add A Book to Library \nEnter option: "))
+        option = int(input("Choose the number for one of the following menu options: \n 1. View Available Books \n 2. Search By Author or Genre \n 3. Checkout a Book \n 4. Return a Book \n 5. View Overdue Books \n 6. View Top 3 Most Checked-Out Books \n 7. Add A Book to Library \nEnter option: "))
         time.sleep(1)
         if option == 1:
             self.viewAllBooks()
@@ -274,12 +279,14 @@ if __name__ == "__main__":
     my_library = Book(library_books)
     print("Welcome to the library! Choose from the menu to explore our options! \n")
     time.sleep(0.5)
-    continue_menu = 1
-    while(continue_menu != 2):
+    continue_menu = True
+    while(continue_menu):
         my_library.menu()
         print("\n")
         time.sleep(1)
-        continue_menu = int(input("Type 1 for True and 2 for False based on if you want to choose another option from the menu: "))
+        continueOn = input("If you want to choose another option from the menu, type 'True'; if you want to exit, type 'False': ")
+        if continueOn.casefold() == "False".casefold():
+            continue_menu = False
         time.sleep(1)
     print("Thanks for visiting the library!")
     
