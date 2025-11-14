@@ -29,7 +29,7 @@ class Book:
                 #print book ID + title + authore 
 
     def viewAllBooks(self):
-        print("Here are all of the books in the library: \n")
+        print("Here are all of the available books in the library: \n")
         time.sleep(1)
         for book in self.library_books:
             if book.get("available") == True:
@@ -210,6 +210,23 @@ class Book:
     # - Save/load catalog to file (CSV or JSON)
     # - Anything else you want to build on top of the system!
 
+    #PSEUDOCODE:
+    #DEFINE three_most_checked_out() function
+        #COPY library_books
+        #Make new list for top 3 books called checkout_books
+        #WHILE checkout_books has less than 3 values in it
+            #set max number of checkouts to the amount of checkouts of the first book
+                #FOR each book in the library books list copy
+                    #IF book checkouts is greater than max checkouts
+                        #SET max checkouts to book checkouts
+                        #SET book with max checkouts to book
+                #ADD book with max checkouts to checkout_books
+                #FOR each book in the library books list copy
+                    #IF book is the same as the book with max checkouts
+                        #DELETE book from library books list copy
+        #FOR each book in checkout_books
+            #PRINT each book
+
     def three_most_checked_out(self):
         print("The three most checked out books in the library are: ")
         library_books_duplicate = copy.deepcopy(self.library_books)
@@ -232,6 +249,18 @@ class Book:
         for book in checkout_books:
             print(f"{place}. {book.get("title")} by {book.get("author")} - {book.get("id")} - {book.get("checkouts")}")
             place = place + 1
+
+
+    #PSEUDOCODE:
+    #DEFINE add_book function
+        #SET id to first letter of already existing IDs in library_books and the next value for IDs
+        #SET title to user inputted title
+        #SET author to user inputted author
+        #SET genre to user inputted genre
+        #SET available to True
+        #SET due date to None
+        #SET checkouts to 0
+        #PRINT book and tell user book was added
 
     def add_book(self):
         id_last_num = int(self.library_books[-1].get("id")[-1]) + 1
